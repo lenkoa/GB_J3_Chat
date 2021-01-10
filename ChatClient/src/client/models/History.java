@@ -5,7 +5,6 @@ import java.util.ArrayList;
 
 public class History {
     private File historyFile;
-
     private BufferedWriter writer;
 
     public History() {
