@@ -1,9 +1,12 @@
 import chat.MyServer;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.core.Logger;
 
 import java.io.IOException;
 
 public class ServerApp {
 
+    private static final Logger LOGGER = (Logger) LogManager.getLogger(ServerApp.class);
     private static final int DEFAULT_PORT = 8189;
 
     public static void main(String[] args) {
@@ -16,8 +19,7 @@ public class ServerApp {
         try {
             new MyServer(port).start();
         } catch (IOException e) {
-            e.printStackTrace();
-            System.out.println("Ошибка!");
+            LOGGER.error("Ошибка!", e);
             System.exit(1);
         }
     }

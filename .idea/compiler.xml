@@ -6,10 +6,12 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
+        <module name="java_2" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="ChatCommands" target="15" />
+      <module name="java_2" target="15" />
       <module name="NetworkClientServer" target="15" />
     </bytecodeTargetLevel>
   </component>

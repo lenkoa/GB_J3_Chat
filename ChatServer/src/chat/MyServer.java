@@ -4,6 +4,8 @@ import chat.auth.AuthService;
 import chat.auth.BaseAuthService;
 import chat.handler.ClientHandler;
 import clientserver.Command;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.core.Logger;
 
 import java.io.IOException;
 import java.net.ServerSocket;
@@ -12,6 +14,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MyServer {
+
+    private static final Logger LOGGER = (Logger) LogManager.getLogger(MyServer.class);
 
     private final ServerSocket serverSocket;
     private final AuthService authService;
@@ -24,25 +28,24 @@ public class MyServer {
 
 
     public void start() throws IOException {
-        System.out.println("Сервер запущен!");
+        LOGGER.info("Сервер запущен!");
 
         try {
             while (true) {
                 waitAndProcessNewClientConnection();
             }
         } catch (IOException e) {
-            System.out.println("Ошибка создания нового подключения");
-            e.printStackTrace();
+            LOGGER.error("Ошибка создания нового подключения", e);
         } finally {
             serverSocket.close();
         }
     }
 
     private void waitAndProcessNewClientConnection() throws IOException {
-        System.out.println("Ожидание пользователя...");
+        LOGGER.info("Ожидание пользователя...");
         Socket clientSocket = serverSocket.accept();
 //        clientSocket.setSoTimeout(120000);
-        System.out.println("Клиент подключился!");
+        LOGGER.info("Клиент подключился!");
         processClientConnection(clientSocket);
     }
 

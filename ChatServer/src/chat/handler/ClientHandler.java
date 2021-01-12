@@ -7,6 +7,8 @@ import clientserver.CommandType;
 import clientserver.commands.AuthCommandData;
 import clientserver.commands.PrivateMessageCommandData;
 import clientserver.commands.PublicMessageCommandData;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.core.Logger;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -17,11 +19,14 @@ import java.util.TimerTask;
 
 public class ClientHandler {
 
+    private static final Logger LOGGER = (Logger) LogManager.getLogger(ClientHandler.class);
+
     private final MyServer myServer;
     private final Socket clientSocket;
     private ObjectInputStream in;
     private ObjectOutputStream out;
     private String username;
+
 
     public ClientHandler(MyServer myServer, Socket clientSocket) {
         this.myServer = myServer;
@@ -32,6 +37,7 @@ public class ClientHandler {
         in = new ObjectInputStream(clientSocket.getInputStream());
         out = new ObjectOutputStream(clientSocket.getOutputStream());
 
+
 //        new Timer().schedule();
         new Thread(() -> {
             try {
@@ -39,18 +45,18 @@ public class ClientHandler {
                     @Override
                     public void run() {
                         try {
-                            System.out.println("Авторизация не пройдена за 120 секунд, разрываем соединение");
+                            LOGGER.info("Авторизация не пройдена пользователем за 120 секунд, разрываем соединение");
                             sendMessage(Command.authErrorCommand("Ошибка авторизации. Авторизация не пройдена за 120 секунд"));
                             clientSocket.close();
                         } catch (IOException e) {
-                            e.printStackTrace();
+                            LOGGER.error("Error!", e);
                         }
                     }
                 }, 120000);
                 authentication();
                 readMessage();
             } catch (IOException e) {
-                System.out.println(e.getMessage());
+                LOGGER.error("Error!", e);
             }
 
         }).start();
@@ -108,9 +114,7 @@ public class ClientHandler {
         try {
             return (Command) in.readObject();
         } catch (ClassNotFoundException e) {
-            String errorMessage = "Получен неизвестный объект";
-            System.err.println(errorMessage);
-            e.printStackTrace();
+            LOGGER.error("Error! Получен неизвестный объект", e);
             return null;
         }
     }
@@ -131,6 +135,7 @@ public class ClientHandler {
                     String message = data.getMessage();
                     String sender = data.getSender();
                     myServer.broadcastMessage(this, Command.messageInfoCommand(message, sender));
+                    // LOGGER.info("Клиент " + sender + " прислал сообщение " + message); // не слишком много событий будет?
                     break;
                 }
                 case PRIVATE_MESSAGE:
@@ -141,7 +146,7 @@ public class ClientHandler {
                     break;
                 default:
                     String errorMessage = "Неизвестный тип команды" + command.getType();
-                    System.err.println(errorMessage);
+                    LOGGER.error("Error! Неизвестный тип команды" + command.getType());
                     sendMessage(Command.errorCommand(errorMessage));
             }
         }
