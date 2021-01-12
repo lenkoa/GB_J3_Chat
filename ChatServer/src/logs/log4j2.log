@@ -1,0 +1,14 @@
+2021-01-11 23:06:06,963 INFO c.MyServer [main] Сервер запущен!
+2021-01-11 23:06:06,983 INFO c.MyServer [main] Ожидание пользователя...
+2021-01-11 23:06:25,665 INFO c.MyServer [main] Клиент подключился!
+2021-01-11 23:06:25,700 INFO c.MyServer [main] Ожидание пользователя...
+2021-01-11 23:06:55,462 ERROR c.h.ClientHandler [Thread-0] Error!
+java.io.EOFException: null
+	at java.io.ObjectInputStream$BlockDataInputStream.peekByte(ObjectInputStream.java:3201) ~[?:?]
+	at java.io.ObjectInputStream.readObject0(ObjectInputStream.java:1652) ~[?:?]
+	at java.io.ObjectInputStream.readObject(ObjectInputStream.java:508) ~[?:?]
+	at java.io.ObjectInputStream.readObject(ObjectInputStream.java:466) ~[?:?]
+	at chat.handler.ClientHandler.readCommand(ClientHandler.java:115) ~[ChatServer/:?]
+	at chat.handler.ClientHandler.readMessage(ClientHandler.java:124) ~[ChatServer/:?]
+	at chat.handler.ClientHandler.lambda$handle$0(ClientHandler.java:57) ~[ChatServer/:?]
+	at java.lang.Thread.run(Thread.java:832) [?:?]

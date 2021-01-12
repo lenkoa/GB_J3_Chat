@@ -1,10 +1,14 @@
 package chat.auth;
 
 import chat.User;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.core.Logger;
 
 import java.util.List;
 
 public class BaseAuthService implements AuthService {
+
+    private static final Logger LOGGER = (Logger) LogManager.getLogger(BaseAuthService.class);
 
     private static final List<User> clients = List.of(
             new User("user1", "1111", "Борис_Николаевич"),
@@ -14,7 +18,7 @@ public class BaseAuthService implements AuthService {
 
     @Override
     public void start() {
-        System.out.println("Сервис аутентификации запущен");
+        LOGGER.info("Сервис аутентификации запущен");
     }
 
     @Override
@@ -29,7 +33,6 @@ public class BaseAuthService implements AuthService {
 
     @Override
     public void close() {
-        System.out.println("Сервис аутентификации завершен");
-
+        LOGGER.info("Сервис аутентификации завершен");
     }
 }

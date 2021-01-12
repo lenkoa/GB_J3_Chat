@@ -13,7 +13,7 @@ import java.net.Socket;
 
 public class Network {
 
-    private static final String SERVER_ADRESS = "localhost";
+    private static final String SERVER_ADDRESS = "localhost";
     private static final int SERVER_PORT = 8189;
 
     private final String host;
@@ -35,7 +35,7 @@ public class Network {
     }
 
     public Network() {
-        this(SERVER_ADRESS, SERVER_PORT);
+        this(SERVER_ADDRESS, SERVER_PORT);
     }
 
     public Network(String host, int port) {
